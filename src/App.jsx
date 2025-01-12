@@ -8,7 +8,7 @@ import NotFound from "./pages/notfound/NotFound";
 import { Manager } from "./pages/managers/Managers";
 import Details from "./pages/details/Details";
 import Stuffs from "./pages/stuffs/Stuffs";
-import {Tasks} from "./pages/tasks/Tasks";
+import { Tasks } from "./pages/tasks/Tasks";
 const App = () => {
   const { token } = useContext(AuthContext);
 
