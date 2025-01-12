@@ -1,1 +1,1 @@
-export const BaseUrl =  import.meta.env.BaseUrl;
+export const BaseUrl =  import.meta.env.VITE_BAE_URL;
