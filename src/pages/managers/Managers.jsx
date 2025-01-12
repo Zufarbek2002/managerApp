@@ -8,7 +8,7 @@ import { Option } from "antd/es/mentions";
 import updateManagerMuation from "../../services/updateManager";
 import addManagerMuation from "../../services/addManagerMutation";
 
-export const Manager = () => {
+const Manager = () => {
 
     const managers = getManagers();
     const deleteMuation = deleteManagerMuation();
@@ -136,3 +136,5 @@ export const Manager = () => {
         </div>
     )
 }
+
+export default Manager
