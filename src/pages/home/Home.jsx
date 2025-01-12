@@ -2,8 +2,10 @@ import { useState } from "react";
 import LogoI from "../../assets/logo";
 import { menuItem } from "../../constants/menuItem";
 import Details from "../details/Details";
+import Manager from "../managers/Managers";
 
 const Home = () => {
+
  const [isActive, setisActive] = useState(0)
 
   return <div className="flex ">
@@ -28,7 +30,7 @@ const Home = () => {
         </div>
       </div>
       <div className="content py-[28px] px-[24px]">
-        <Details />
+        <Manager/>
       </div>
     </div>
   </div>;
