@@ -6,6 +6,7 @@ import { AuthContext } from "./contexts/AuthContext";
 import Details from "./pages/details/Details";
 import BlockLanganar from "./pages/block-langanar/block-langanar";
 import NotFound from "./pages/notfound/NotFound";
+import { Manager } from "./pages/managers/Managers";
 const App = () => {
 
 
@@ -20,7 +21,7 @@ const App = () => {
           <Route path="/" element={<Home />} >
             <Route path="/umumiy" element={<Details/>} />
             <Route path="/block-langanar" element={<BlockLanganar/>} />
-            <Route path="/managerlar" element={<Details/>} />
+            <Route path="/managerlar" element={<Manager/>} />
             <Route path="*" element={<NotFound/>} />
           </Route>
         </Routes>
