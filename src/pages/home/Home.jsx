@@ -1,43 +1,51 @@
 import { useState } from "react";
 import LogoI from "../../assets/logo";
-import { menuItem } from "../../constants/menuItem";
 import { NavLink, Outlet } from "react-router-dom";
+import { menuItem } from "../../constants/menuItem";
+import { IoIosArrowDown } from "react-icons/io";
 
 const Home = () => {
- const [isActive, setisActive] = useState(0)
-  return <div className="flex ">
-    <div className="sidebar w-[230px] h-screen bg-[#F3F3F3] border-r-[2px] border-[#E8E8E8] p-[16px]">
-      <div className="mb-[25px]">
-        <a href="#">
-          <LogoI />
-        </a>
-      </div>
-      <div>
-        {menuItem.map((item, index) => (
-          <NavLink to={item.slug} onClick={() => index == isActive.activeIndex? setisActive({activeIndex:index,color:'text-[red]'}) : setisActive({activeIndex:index,color:'text-[black]'})} key={index} className={`${isActive.activeIndex == index ? 'bg-[#E8E8E8]' : ''} gap-5 rounded-lg block`}>
+  const [numberF, setNumberF] = useState(0)
 
-            <div className="flex items-center gap-1 p-2 mb-2 cursor-pointer">
-              <div>
-                {item.icon(`${isActive.color}`)}
-              </div>
-              <p className={`${isActive.activeIndex == index ? 'text-[black]' : 'text-[#2c3030a9]'} drop-shadow-[0_35px_35px_rgba(0,0,0,0.25)] font-[500] text-[#E8E8E8]`}>{item.name}</p>
-            </div>
-          </NavLink>
-        ))}
-      </div>
-    </div>
+  let newFunck = (index) => {
+    setNumberF(index)
+  }
 
-    <div className="mainSide w-full">
-      <div className="navbar border-b-2 border-[#E8E8E8] px-[24px] py-[14px] flex">
-        <div className="flex ml-auto">
-          <button className="">manager@mail.ru</button>
+  return (
+    <div className="flex ">
+      <div className="sidebar w-[230px] h-screen bg-[#F3F3F3] border-r-[2px] border-[#E8E8E8] p-[16px]">
+        <div className="mb-[25px]">
+          <a href="#">
+            <LogoI />
+          </a>
+        </div>
+        <div>
+
+          {menuItem.map((item, index) => (
+            <NavLink onClick={() => { newFunck(index) }} to={item.slug} key={index} className={`${index == numberF ? 'bg-[#E8E8E8]' : 'text-[#141A1899]'} p-[13px] w-full flex items-center rounded-lg`}>
+              <div>{item.icon(`${index == numberF ? 'text-darkGreen' : 'text-[#141A1899]'}`)}</div>
+              <p className="ml-2">{item.name}</p>
+            </NavLink>
+          ))}
         </div>
       </div>
-      <div className="content py-[28px] px-[24px]">
-        <Outlet />
+
+      <div className="mainSide w-full">
+        <div className="navbar border-b-2 border-[#E8E8E8] px-[24px] py-[14px] flex">
+          <div className="flex flex-col ml-auto leading-4">
+            <div className="flex cursor-pointer ml-auto">
+              <button className="block mr-2">manager@mail.ru</button>
+              <IoIosArrowDown className="text-[#141A1899]" />
+            </div>
+            <button className="text-[#141A1899]">Администратор компании</button>
+          </div>
+        </div>
+        <div className="content py-[28px] px-[24px] ">
+          <Outlet />
+        </div>
       </div>
     </div>
-  </div>;
+  );
 };
 
 export default Home;
