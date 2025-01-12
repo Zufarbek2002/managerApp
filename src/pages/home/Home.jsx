@@ -3,11 +3,8 @@ import LogoI from "../../assets/logo";
 import { menuItem } from "../../constants/menuItem";
 import { NavLink, Outlet } from "react-router-dom";
 import { FiServer } from "react-icons/fi";
-
-
 const Home = () => {
-  const [isActive, setisActive] = useState({activeIndex:0,color:'text-[red]'})
-
+ const [isActive, setisActive] = useState(0)
   return <div className="flex ">
     <div className="sidebar w-[230px] h-screen bg-[#F3F3F3] border-r-[2px] border-[#E8E8E8] p-[16px]">
       <div className="mb-[25px]">
@@ -38,6 +35,7 @@ const Home = () => {
       </div>
       <div className="content py-[28px] px-[24px]">
         <Outlet />
+        <Manager/>
       </div>
     </div>
   </div>;
