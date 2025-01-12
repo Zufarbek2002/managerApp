@@ -1,7 +1,6 @@
+
 const Details = () => {
-    return (
-        <div>Details</div>
-    )
+  return <div>Umumiy</div>;
 }
 
 export default Details

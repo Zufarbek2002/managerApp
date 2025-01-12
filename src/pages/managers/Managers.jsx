@@ -8,7 +8,7 @@ import { Option } from "antd/es/mentions";
 import updateManagerMuation from "../../services/updateManager";
 import addManagerMuation from "../../services/addManagerMutation";
 
-const Manager = () => {
+export const Manager = () => {
 
     const managers = getManagers();
     const deleteMuation = deleteManagerMuation();
@@ -88,7 +88,7 @@ const Manager = () => {
                         setState(null);
                     }
                     if (state == 'add') {
-                                                
+
                         addMutation.mutate({ email, name, isActive: status });
                         if (addMutation.isSuccess) toast.success('Manager Added');
                         setModal(false);
@@ -136,5 +136,3 @@ const Manager = () => {
         </div>
     )
 }
-
-export default Manager
