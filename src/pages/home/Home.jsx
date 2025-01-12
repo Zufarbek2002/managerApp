@@ -2,7 +2,7 @@ import { useState } from "react";
 import LogoI from "../../assets/logo";
 import { menuItem } from "../../constants/menuItem";
 import { NavLink, Outlet } from "react-router-dom";
-import { FiServer } from "react-icons/fi";
+
 const Home = () => {
  const [isActive, setisActive] = useState(0)
   return <div className="flex ">
@@ -35,7 +35,6 @@ const Home = () => {
       </div>
       <div className="content py-[28px] px-[24px]">
         <Outlet />
-        <Manager/>
       </div>
     </div>
   </div>;
