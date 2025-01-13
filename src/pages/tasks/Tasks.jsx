@@ -63,7 +63,7 @@ export const Tasks = () => {
             setModalDelete(true);
             setId(id);
           }}
-          style={{ backgroundColor: "red" }}
+          style={{ backgroundColor: "#F44336" }}
           type="primary"
         >
           Delete
