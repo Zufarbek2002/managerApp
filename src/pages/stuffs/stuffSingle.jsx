@@ -19,7 +19,7 @@ const StuffSingle = () => {
                             <li key={index} className="ml-5">{task.name}asdf</li>
                         )) : (<p className="">vazifalar tayinlanmagan</p>)}
                     </ul>
-                    <Button className="bg-darkGreen hover:bg-darkRed" type="primary">Task qo'shish</Button>
+                    <Button className="bg-darkGreen hover:bg-darkRed" type="primary">{"Task qo'shish"}</Button>
                 </div>
             </>) : (<h1>something went wrong</h1>)}
         </div>

@@ -9,7 +9,6 @@ import updateEmployee from "../../services/updateEmployee";
 import addEmployee from "../../services/addEmployee";
 import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import { debounce } from "lodash";
-import { NavLink } from "react-router-dom";
 
 const Stuffs = () => {
   const employee = getEmployee();
