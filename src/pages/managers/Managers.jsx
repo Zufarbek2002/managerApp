@@ -9,10 +9,12 @@ import updateManagerMuation from "../../services/updateManager";
 import addManagerMuation from "../../services/addManagerMutation";
 import { debounce } from "lodash";
 import { SearchOutlined } from "@ant-design/icons";
+import getEmployee from "../../services/getEmployee";
 
 export const Manager = () => {
 
     const managers = getManagers();
+    const employee = getEmployee();
     const deleteMuation = deleteManagerMuation();
     const updateMuation = updateManagerMuation();
     const addMutation = addManagerMuation();
@@ -91,6 +93,8 @@ export const Manager = () => {
     };
 
     const debouncedSearch = debounce(handleSearch, 500);
+    let onlyManagers = employee.data.filter((u) => u.type == 'manager')
+
 
     return (
         <div>
@@ -111,7 +115,7 @@ export const Manager = () => {
                     onChange={(e) => debouncedSearch(e.target.value)}
                 />
             </div>
-            <CustomTable data={isHaveData && isEmpty ? stuffs : managers.data} loading={deleteMuation.isPending} columns={columns} scroll={{ x: 5, y: 500 }} />
+            <CustomTable data={isHaveData && isEmpty ? stuffs : onlyManagers} loading={deleteMuation.isPending} columns={columns} scroll={{ x: 5, y: 500 }} />
             <Modal
                 open={modal}
                 onCancel={() => setModal(false)}

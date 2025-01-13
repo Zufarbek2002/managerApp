@@ -9,6 +9,7 @@ import updateEmployee from "../../services/updateEmployee";
 import addEmployee from "../../services/addEmployee";
 import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import { debounce } from "lodash";
+import { NavLink } from "react-router-dom";
 
 const Stuffs = () => {
   const employee = getEmployee();
@@ -25,8 +26,8 @@ const Stuffs = () => {
   const [last_name, setLname] = useState("");
   const [status, setStatus] = useState();
   const [type, setType] = useState();
-   const [currentPage, setCurrentPage] = useState(1);
-   const [pageSize, setPageSize] = useState();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState();
 
   const columns = [
     {
@@ -101,6 +102,9 @@ const Stuffs = () => {
   const [isHaveData, setIsHaveData] = useState(false);
   const [isEmpty, setIsEmpty] = useState(true);
 
+
+
+
   const handleSearch = (input) => {
     let inputValue = input.toLowerCase();
 
@@ -119,7 +123,9 @@ const Stuffs = () => {
     }
   };
 
-  const debouncedSearch = debounce(handleSearch, 500);
+  const debouncedSearch = debounce(handleSearch, 1000);
+
+  let newEmployee = employee.data
 
   return (
     <div>
@@ -147,7 +153,7 @@ const Stuffs = () => {
         />
       </div>
       <CustomTable
-        data={isHaveData && isEmpty ? stuffs : employee.data}
+        data={isHaveData && isEmpty ? stuffs : newEmployee}
         loading={deleteEm.isPending}
         columns={columns}
         page={currentPage}
