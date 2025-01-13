@@ -10,6 +10,7 @@ import { Tasks } from "./pages/tasks/Tasks";
 import { Manager } from "./pages/managers/Managers";
 import Umumiy from "./pages/umumiy/Umumiy";
 import StuffSingle from "./pages/stuffs/stuffSingle";
+import ManagerSingle from "./pages/managers/ManagerSingle";
 const App = () => {
   const { token } = useContext(AuthContext);
 
@@ -21,8 +22,9 @@ const App = () => {
             <Route path="/" element={<Umumiy />} />
             <Route path="/block-langanar" element={<BlockLanganar />} />
             <Route path="/managerlar" element={<Manager />} />
+            <Route path="/manager/:id" element={<ManagerSingle />} />
             <Route path="/hodimlar" element={<Stuffs />} />
-            <Route path="/hodimlar/:id" element={<StuffSingle />} />
+            <Route path="/employee/:id" element={<StuffSingle />} />
             <Route path="/vazifalar" element={<Tasks />} />
             <Route path="*" element={<NotFound />} />
           </Route>

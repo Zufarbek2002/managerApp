@@ -1,4 +1,5 @@
 import { Table } from "antd";
+import { useNavigate } from "react-router-dom";
 
 const CustomTable = ({
   data,
@@ -8,7 +9,13 @@ const CustomTable = ({
   onPageChange,
   pageSize,
   onPageSizeChange,
+  routePath,
 }) => {
+  const navigate = useNavigate();
+
+  const handleRowClick = (record) => {
+    navigate(`/${record.type}/${record.id}`);
+  };
   return (
     <Table
       pagination={{
@@ -25,6 +32,10 @@ const CustomTable = ({
       columns={columns}
       dataSource={Array.isArray(data) ? data : []}
       loading={loading}
+      onRow={(record) => ({
+        onClick: () => handleRowClick(record),
+        style: { cursor: routePath ? "pointer" : "default" },
+      })}
     />
   );
 };

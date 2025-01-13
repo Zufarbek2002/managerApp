@@ -1,6 +1,6 @@
 import { Button, Form, Input, Modal, Select } from "antd";
 import CustomTable from "../../components/CustomTable";
-import getManagers from "../../services/getManagers"
+import getManagers from "../../services/getManagers";
 import deleteManagerMuation from "../../services/deleteManager";
 import toast, { Toaster } from "react-hot-toast";
 import { useState } from "react";
@@ -9,12 +9,10 @@ import updateManagerMuation from "../../services/updateManager";
 import addManagerMuation from "../../services/addManagerMutation";
 import { debounce } from "lodash";
 import { SearchOutlined } from "@ant-design/icons";
-import getEmployee from "../../services/getEmployee";
 
 export const Manager = () => {
 
     const managers = getManagers();
-    const employee = getEmployee();
     const deleteMuation = deleteManagerMuation();
     const updateMuation = updateManagerMuation();
     const addMutation = addManagerMuation();
@@ -27,74 +25,102 @@ export const Manager = () => {
     const [name, setName] = useState('');
     const [status, setStatus] = useState();
 
-    const columns = [
-        {
-            key: 1,
-            title: 'Name',
-            dataIndex: 'name',
-        },
-        {
-            key: 2,
-            title: 'Email',
-            dataIndex: 'email',
-        },
-        {
-            key: 3,
-            title: 'Phone',
-            dataIndex: 'phone',
-        },
-        {
-            key: 4,
-            title: 'Update',
-            dataIndex: 'id',
-            render: (id) => <Button onClick={() => {
-                const data = managers.data.find(u => u.id == id);
+  const columns = [
+    {
+      key: 1,
+      title: "Name",
+      dataIndex: "name",
+    },
+    {
+      key: 1,
+      title: "Last name",
+      dataIndex: "last_name",
+    },
+    {
+      key: 2,
+      title: "Email",
+      dataIndex: "email",
+    },
+    {
+      key: 2,
+      title: "Type",
+      dataIndex: "type",
+    },
+    {
+      key: 3,
+      title: "Phone",
+      dataIndex: "phone",
+    },
+    {
+      key: 4,
+      title: "Update",
+      dataIndex: "id",
+      render: (id) => (
+        <Button
+          onClick={(e) => {
+            e.stopPropagation();
+            const data = managers.data.find((u) => u.id == id);
+            setState("update");
+            setEmail(data.email);
+            setName(data.name);
+            // setLname(data.last_name);
+            setStatus(data.isActive);
+            // setType(data.type || "");
+            setId(id);
+            setModal(true);
+          }}
+          style={{ backgroundColor: "#14B890" }}
+          type="primary"
+        >
+          Update
+        </Button>
+      ),
+    },
+    {
+      key: 5,
+      title: "Delete",
+      dataIndex: "id",
+      render: (id) => (
+        <Button
+          onClick={(e) => {
+            e.stopPropagation();
+            setModalDelete(true);
+            setId(id);
+          }}
+          style={{ backgroundColor: "#F44336" }}
+          type="primary"
+        >
+          Delete
+        </Button>
+      ),
+    },
+  ];
 
-                setState('update')
-                setEmail(data.email);
-                setName(data.name);
-                setStatus(data.isActive);
-                setModal(true);
-                setId(id);
+  const [stuffs, setStuffs] = useState([]);
+  const [isHaveData, setIsHaveData] = useState(false);
+  const [isEmpty, setIsEmpty] = useState(true);
 
-            }} style={{ backgroundColor: 'green' }} type='primary' >Update</Button>
-        },
-        {
-            key: 5,
-            title: 'Delete',
-            dataIndex: 'id',
-            render: (id) => <Button onClick={() => {
-                setModalDelete(true);
-                setId(id);
-            }} style={{ backgroundColor: 'red' }} type='primary' >Delete</Button>
-        },
-    ]
+  const handleSearch = (input) => {
+    let inputValue = input.toLowerCase();
 
-    const [stuffs, setStuffs] = useState([]);
-    const [isHaveData, setIsHaveData] = useState(false);
-    const [isEmpty, setIsEmpty] = useState(true);
+    if (inputValue && inputValue.length > 1) {
+      setStuffs(
+        managers.data.filter((u) => u.name.toLowerCase().includes(inputValue))
+      );
+    } else {
+      setStuffs([]);
+    }
 
-    const handleSearch = (input) => {
-        let inputValue = input.toLowerCase();
-
-        if (inputValue && inputValue.length > 1) {
-            setStuffs(managers.data.filter((u) => u.name.toLowerCase().includes(inputValue)));
-        } else {
-            setStuffs([]);
-        }
-
-        if (inputValue.length >= 3) {
-            setIsHaveData(true);
-            setIsEmpty(true);
-        } else {
-            setIsHaveData(false);
-            setIsEmpty(false);
-        }
-    };
+    if (inputValue.length >= 3) {
+      setIsHaveData(true);
+      setIsEmpty(true);
+    } else {
+      setIsHaveData(false);
+      setIsEmpty(false);
+    }
+  };
 
     const debouncedSearch = debounce(handleSearch, 500);
-    let onlyManagers = employee.data.filter((u) => u.type == 'manager')
-
 
     return (
         <div>
@@ -115,7 +141,7 @@ export const Manager = () => {
                     onChange={(e) => debouncedSearch(e.target.value)}
                 />
             </div>
-            <CustomTable data={isHaveData && isEmpty ? stuffs : onlyManagers} loading={deleteMuation.isPending} columns={columns} scroll={{ x: 5, y: 500 }} />
+            <CustomTable data={isHaveData && isEmpty ? stuffs : managers.data} loading={deleteMuation.isPending} columns={columns} scroll={{ x: 5, y: 500 }} />
             <Modal
                 open={modal}
                 onCancel={() => setModal(false)}

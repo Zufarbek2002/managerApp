@@ -12,8 +12,8 @@ const Home = () => {
   }
 
   return (
-    <div className="flex ">
-      <div className="sidebar w-[230px] h-screen bg-[#F3F3F3] border-r-[2px] border-[#E8E8E8] p-[16px]">
+    <div className="flex fixed top-0 left-0 w-full h-full">
+      <div className="sidebar w-[230px] min-h-screen max-h-full bg-[#F3F3F3] border-r-[2px] border-[#E8E8E8] p-[16px]">
         <div className="mb-[25px]">
           <a href="#">
             <LogoI />
@@ -40,7 +40,7 @@ const Home = () => {
             <button className="text-[#141A1899]">Администратор компании</button>
           </div>
         </div>
-        <div className="content py-[28px] px-[24px] ">
+        <div className="content py-[28px] px-[24px] overflow-y-scroll h-[calc(100vh-80px)]">
           <Outlet />
         </div>
       </div>
