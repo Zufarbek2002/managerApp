@@ -10,7 +10,7 @@ export const menuItem = [
       return <><RiServerFill size={20} className={colour} /></>
     },
     name: "Umumiy",
-    slug: "umumiy",
+    slug: "/",
   },
   {
     icon: (colour) => {
