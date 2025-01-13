@@ -7,6 +7,8 @@ import { Option } from "antd/es/mentions";
 import updateTasks from "../../services/updateTasks";
 import deleteTasks from "../../services/deleteTasks";
 import addTasks from "../../services/addTasks";
+import { SearchOutlined } from "@ant-design/icons";
+import { debounce } from "lodash";
 import { PlusOutlined } from "@ant-design/icons";
 
 export const Tasks = () => {
@@ -45,7 +47,7 @@ export const Tasks = () => {
             setModal(true);
             setId(id);
           }}
-          style={{ backgroundColor: "green" }}
+          style={{ backgroundColor: "#14B890" }}
           type="primary"
         >
           Update
@@ -70,24 +72,57 @@ export const Tasks = () => {
     },
   ];
 
+  const [stuffs, setStuffs] = useState([]);
+  const [isHaveData, setIsHaveData] = useState(false);
+  const [isEmpty, setIsEmpty] = useState(true);
+
+  const handleSearch = (input) => {
+    let inputValue = input.toLowerCase();
+
+    if (inputValue && inputValue.length > 1) {
+      setStuffs(tasks.data.filter((u) => u.name.toLowerCase().includes(inputValue)));
+    } else {
+      setStuffs([]);
+    }
+
+    if (inputValue.length >= 3) {
+      setIsHaveData(true);
+      setIsEmpty(true);
+    } else {
+      setIsHaveData(false);
+      setIsEmpty(false);
+    }
+  };
+
+  const debouncedSearch = debounce(handleSearch, 500);
+
   return (
     <div>
       <Toaster position="'top-center" />
       <div className="flex w-full pb-4 justify-start">
         <Button
+          className="flex mr-[25px] h-9 bg-darkGreen text-[white]"
           onClick={() => {
             setState("add");
             setModal(true);
           }}
           type="primary"
-          style={{ backgroundColor: "#14B890" }}
         >
           <PlusOutlined />
           <h2 className="font-medium text-sm">{"Vazifa qo'shish"}</h2>
         </Button>
+        <div className="flex w-[346px] pb-4">
+          <Input
+            size="large"
+            placeholder="vazifa bo'yicha qidirish"
+            prefix={<SearchOutlined />}
+            onChange={(e) => debouncedSearch(e.target.value)}
+          />
+        </div>
       </div>
+
       <CustomTable
-        data={tasks.data}
+        data={isHaveData && isEmpty ? stuffs : tasks.data}
         loading={deleteData.isPending}
         columns={columns}
         scroll={{ x: 5, y: 500 }}

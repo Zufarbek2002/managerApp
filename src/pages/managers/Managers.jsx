@@ -7,6 +7,8 @@ import { useState } from "react";
 import { Option } from "antd/es/mentions";
 import updateManagerMuation from "../../services/updateManager";
 import addManagerMuation from "../../services/addManagerMutation";
+import { debounce } from "lodash";
+import { SearchOutlined } from "@ant-design/icons";
 
 export const Manager = () => {
 
@@ -66,16 +68,50 @@ export const Manager = () => {
         },
     ]
 
+    const [stuffs, setStuffs] = useState([]);
+    const [isHaveData, setIsHaveData] = useState(false);
+    const [isEmpty, setIsEmpty] = useState(true);
+
+    const handleSearch = (input) => {
+        let inputValue = input.toLowerCase();
+
+        if (inputValue && inputValue.length > 1) {
+            setStuffs(managers.data.filter((u) => u.name.toLowerCase().includes(inputValue)));
+        } else {
+            setStuffs([]);
+        }
+
+        if (inputValue.length >= 3) {
+            setIsHaveData(true);
+            setIsEmpty(true);
+        } else {
+            setIsHaveData(false);
+            setIsEmpty(false);
+        }
+    };
+
+    const debouncedSearch = debounce(handleSearch, 500);
+
     return (
         <div>
             <Toaster position="'top-center" />
             <div className="flex w-full pb-4 justify-start">
-                <Button onClick={()=>{
-                    setState('add');
-                    setModal(true)
-                }} >Add Task</Button>
+                <Button
+                    className="block mr-[25px] bg-darkGreen text-[white]"
+                    onClick={() => {
+                        setState('add');
+                        setModal(true)
+                    }} >Add Task</Button>
             </div>
-            <CustomTable data={managers.data} loading={deleteMuation.isPending} columns={columns} scroll={{ x: 5, y: 500 }} />
+            <div className="flex w-[346px] pb-4">
+                <Input
+                    size="large"
+                    placeholder="Isim bo'yicha qidirish"
+                    prefix={<SearchOutlined />}
+                    onChange={(e) => debouncedSearch(e.target.value)}
+                />
+            </div>
+            <CustomTable data={isHaveData && isEmpty ? stuffs : managers.data} loading={deleteMuation.isPending} columns={columns} scroll={{ x: 5, y: 500 }} />
             <Modal
                 open={modal}
                 onCancel={() => setModal(false)}
