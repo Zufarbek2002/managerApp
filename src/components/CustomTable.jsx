@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { Table } from "antd";
 import { useNavigate } from "react-router-dom";
 
