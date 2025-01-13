@@ -7,6 +7,8 @@ import { Option } from "antd/es/mentions";
 import updateTasks from "../../services/updateTasks";
 import deleteTasks from "../../services/deleteTasks";
 import addTasks from "../../services/addTasks";
+import { SearchOutlined } from "@ant-design/icons";
+import { debounce } from "lodash";
 
 export const Tasks = () => {
   const tasks = getTasks();
@@ -69,11 +71,36 @@ export const Tasks = () => {
     },
   ];
 
+  const [stuffs, setStuffs] = useState([]);
+  const [isHaveData, setIsHaveData] = useState(false);
+  const [isEmpty, setIsEmpty] = useState(true);
+
+  const handleSearch = (input) => {
+    let inputValue = input.toLowerCase();
+
+    if (inputValue && inputValue.length > 1) {
+      setStuffs(tasks.data.filter((u) => u.name.toLowerCase().includes(inputValue)));
+    } else {
+      setStuffs([]);
+    }
+
+    if (inputValue.length >= 3) {
+      setIsHaveData(true);
+      setIsEmpty(true);
+    } else {
+      setIsHaveData(false);
+      setIsEmpty(false);
+    }
+  };
+
+  const debouncedSearch = debounce(handleSearch, 500);
+
   return (
     <div>
       <Toaster position="'top-center" />
       <div className="flex w-full pb-4 justify-start">
         <Button
+          className="block mr-[25px] h-9 bg-darkGreen text-[white]"
           onClick={() => {
             setState("add");
             setModal(true);
@@ -81,9 +108,18 @@ export const Tasks = () => {
         >
           Add Task
         </Button>
+        <div className="flex w-[346px] pb-4">
+          <Input
+            size="large"
+            placeholder="vazifa bo'yicha qidirish"
+            prefix={<SearchOutlined />}
+            onChange={(e) => debouncedSearch(e.target.value)}
+          />
+        </div>
       </div>
+
       <CustomTable
-        data={tasks.data}
+        data={isHaveData && isEmpty ? stuffs : tasks.data }
         loading={deleteData.isPending}
         columns={columns}
         scroll={{ x: 5, y: 500 }}

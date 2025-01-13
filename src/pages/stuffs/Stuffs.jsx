@@ -124,6 +124,7 @@ const Stuffs = () => {
       <Toaster position="'top-center" />
       <div className="flex w-full pb-4 justify-start">
         <Button
+          className="block mr-[25px] bg-darkGreen text-[white]"
           onClick={() => {
             setState("add");
             setModal(true);
@@ -135,7 +136,7 @@ const Stuffs = () => {
       <div className="flex w-[346px] pb-4">
         <Input
           size="large"
-          placeholder="Qidiruv..."
+          placeholder="Isim bo'yicha qidirish"
           prefix={<SearchOutlined />}
           onChange={(e) => debouncedSearch(e.target.value)}
         />
