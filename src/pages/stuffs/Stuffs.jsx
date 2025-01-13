@@ -8,8 +8,9 @@ import deleteEmployee from "../../services/deleteEmployee";
 import updateEmployee from "../../services/updateEmployee";
 import addEmployee from "../../services/addEmployee";
 import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
+import { debounce } from "lodash";
 
- const Stuffs = () => {
+const Stuffs = () => {
   const employee = getEmployee();
   const deleteEm = deleteEmployee();
   const updateEm = updateEmployee();
@@ -94,6 +95,29 @@ import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
       ),
     },
   ];
+  const [stuffs, setStuffs] = useState([]);
+  const [isHaveData, setIsHaveData] = useState(false);
+  const [isEmpty, setIsEmpty] = useState(true);
+
+  const handleSearch = (input) => {
+    let inputValue = input.toLowerCase();
+
+    if (inputValue && inputValue.length > 1) {
+      setStuffs(employee.data.filter((u) => u.name.toLowerCase().includes(inputValue)));
+    } else {
+      setStuffs([]);
+    }
+
+    if (inputValue.length >= 3) {
+      setIsHaveData(true);
+      setIsEmpty(true);
+    } else {
+      setIsHaveData(false);
+      setIsEmpty(false);
+    }
+  };
+
+  const debouncedSearch = debounce(handleSearch, 500);
 
   return (
     <div>
@@ -113,11 +137,11 @@ import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
           size="large"
           placeholder="Qidiruv..."
           prefix={<SearchOutlined />}
-          onChange={(e) => console.log(e.target.value)}
+          onChange={(e) => debouncedSearch(e.target.value)}
         />
       </div>
       <CustomTable
-        data={employee.data}
+        data={isHaveData && isEmpty ? stuffs : employee.data}
         loading={deleteEm.isPending}
         columns={columns}
         scroll={{ x: 5, y: 500 }}
