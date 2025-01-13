@@ -7,6 +7,7 @@ import { Option } from "antd/es/mentions";
 import updateTasks from "../../services/updateTasks";
 import deleteTasks from "../../services/deleteTasks";
 import addTasks from "../../services/addTasks";
+import { PlusOutlined } from "@ant-design/icons";
 
 export const Tasks = () => {
   const tasks = getTasks();
@@ -78,8 +79,11 @@ export const Tasks = () => {
             setState("add");
             setModal(true);
           }}
+          type="primary"
+          style={{ backgroundColor: "#14B890" }}
         >
-          Add Task
+          <PlusOutlined />
+          <h2 className="font-medium text-sm">{"Vazifa qo'shish"}</h2>
         </Button>
       </div>
       <CustomTable
