@@ -5,10 +5,10 @@ import { useContext } from "react";
 import { AuthContext } from "./contexts/AuthContext";
 import BlockLanganar from "./pages/block-langanar/block-langanar";
 import NotFound from "./pages/notfound/NotFound";
-import Details from "./pages/details/Details";
 import Stuffs from "./pages/stuffs/Stuffs";
 import { Tasks } from "./pages/tasks/Tasks";
 import { Manager } from "./pages/managers/Managers";
+import Umumiy from "./pages/umumiy/Umumiy";
 const App = () => {
   const { token } = useContext(AuthContext);
 
@@ -17,7 +17,7 @@ const App = () => {
       {token ? (
         <Routes>
           <Route path="/" element={<Home />}>
-            <Route path="/umumiy" element={<Details />} />
+            <Route path="/" element={<Umumiy />} />
             <Route path="/block-langanar" element={<BlockLanganar />} />
             <Route path="/managerlar" element={<Manager />} />
             <Route path="/hodimlar" element={<Stuffs />} />
