@@ -19,21 +19,12 @@ export const Manager = () => {
   const [modalDelete, setModalDelete] = useState(false);
   const [id, setId] = useState(false);
   const [state, setState] = useState(null);
-  const [type, setType] = useState("");
+  const [type, setType] = useState();
+  const [tasks, setTasks] = useState([]);
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [last_name, setLname] = useState("");
   const [status, setStatus] = useState();
-
-  const resetForm = () => {
-    setEmail("");
-    setName("");
-    setLname("");
-    setStatus("");
-    setType("");
-    setId(null);
-    setState(null);
-  };
 
   const columns = [
     {
@@ -68,18 +59,18 @@ export const Manager = () => {
       render: (id) => (
         <Button
           onClick={(e) => {
-            e.stopPropagation();
             const data = managers.data.find((u) => u.id == id);
+            e.stopPropagation();
             setState("update");
             setEmail(data.email);
             setName(data.name);
-            setLname(data.last_name);
             setStatus(data.isActive);
-            setType(data.type || "");
-            setId(id);
             setModal(true);
+            setType[data?.type];
+            setTasks[data?.tasks];
+            setId(id);
           }}
-          style={{ backgroundColor: "#14B890" }}
+          style={{ backgroundColor: "green" }}
           type="primary"
         >
           Update
@@ -97,7 +88,7 @@ export const Manager = () => {
             setModalDelete(true);
             setId(id);
           }}
-          style={{ backgroundColor: "#F44336" }}
+          style={{ backgroundColor: "red" }}
           type="primary"
         >
           Delete
@@ -132,52 +123,6 @@ export const Manager = () => {
 
   const debouncedSearch = debounce(handleSearch, 500);
 
-  const handleModalSubmit = () => {
-    if (state === "update") {
-      const currentManager = managers.data.find((m) => m.id === id);
-      const updateData = {
-        email,
-        name,
-        last_name,
-        type,
-        isActive: status,
-        tasks: Array.isArray(currentManager?.tasks) ? currentManager.tasks : [],
-      };
-
-      updateMuation.mutate(
-        {
-          id,
-          data: updateData,
-        },
-        {
-          onSuccess: () => {
-            toast.success("Manager Updated");
-            setModal(false);
-            resetForm();
-          },
-        }
-      );
-    } else if (state === "add") {
-      addMutation.mutate(
-        {
-          email,
-          name,
-          last_name,
-          type,
-          isActive: status,
-          tasks: [],
-        },
-        {
-          onSuccess: () => {
-            toast.success("Manager Added");
-            setModal(false);
-            resetForm();
-          },
-        }
-      );
-    }
-  };
-
   return (
     <div>
       <Toaster position="'top-center" />
@@ -186,11 +131,8 @@ export const Manager = () => {
           className="block mr-[25px] bg-darkGreen text-[white]"
           onClick={() => {
             setState("add");
-            resetForm();
             setModal(true);
           }}
-          type="primary"
-          style={{ backgroundColor: "#14B890" }}
         >
           Add Task
         </Button>
@@ -212,16 +154,46 @@ export const Manager = () => {
       <Modal
         open={modal}
         onCancel={() => {
-          resetForm();
+          setEmail("");
+          setName("");
+          setStatus("");
+          setType("");
           setModal(false);
         }}
         onClose={() => setModal(false)}
-        onOk={handleModalSubmit}
+        onOk={() => {
+          if (state == "update") {
+            updateMuation.mutate({
+              id,
+              data: { email, name, last_name, type, tasks, isActive: status },
+            });
+            if (deleteMuation.isSuccess) toast.success("Manager Updated");
+            setModal(false);
+            setState(null);
+          }
+          if (state == "add") {
+            addMutation.mutate({
+              email,
+              name,
+              last_name,
+              type,
+              tasks,
+              isActive: status,
+            });
+            if (addMutation.isSuccess) toast.success("Manager Added");
+            setModal(false);
+            setState(null);
+          }
+          setState(null);
+          setId(null);
+          setEmail("");
+          setName("");
+          setStatus("");
+          setType("");
+        }}
         className="!flex flex-col items-center"
       >
-        <p className="text-xl">
-          {state === "update" ? "Update User" : "Add User"}
-        </p>
+        <p className="text-xl">Update User</p>
         <div className="flex pt-5 flex-col w-[300px]">
           <Form.Item label="Email" layout="vertical">
             <Input value={email} onChange={(e) => setEmail(e.target.value)} />
@@ -236,18 +208,29 @@ export const Manager = () => {
             />
           </Form.Item>
           <Form.Item label="Type" layout="vertical">
-            <Select value={type} onChange={(value) => setType(value)}>
-              <Option value="manager">Manager</Option>
-              <Option value="employee">Employee</Option>
+            <Select
+              onSelect={(value) => setType(value)}
+              defaultValue={type == "manager" ? "manager" : "employee"}
+            >
+              <Option value="manager" key="manager">
+                Manager
+              </Option>
+              <Option value="employee" key="employee">
+                Employee
+              </Option>
             </Select>
           </Form.Item>
           <Form.Item label="Activity" layout="vertical">
             <Select
-              value={status ? "active" : "diactive"}
-              onChange={(value) => setStatus(value === "active")}
+              onSelect={(value) => console.log(value)}
+              defaultValue={status ? "active" : "diactive"}
             >
-              <Option value="active">Active</Option>
-              <Option value="diactive">DiActive</Option>
+              <Option value="active" key="active">
+                Active
+              </Option>
+              <Option value="diactive" key="diactive">
+                DiActive
+              </Option>
             </Select>
           </Form.Item>
         </div>
@@ -257,16 +240,13 @@ export const Manager = () => {
         onCancel={() => setModalDelete(false)}
         onClose={() => setModalDelete(false)}
         onOk={() => {
-          deleteMuation.mutate(id, {
-            onSuccess: () => {
-              toast.success("Manager Deleted");
-              setModalDelete(false);
-              setId(null);
-            },
-          });
+          deleteMuation.mutate(id);
+          if (deleteMuation.isSuccess) toast.success("Manager Deleted");
+          setModalDelete(false);
+          setId(null);
         }}
       >
-        <p className="text-xl">Are you sure</p>
+        <p className="text-xl"> Are you sure</p>
       </Modal>
     </div>
   );
