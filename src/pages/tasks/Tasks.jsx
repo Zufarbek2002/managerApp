@@ -9,6 +9,7 @@ import deleteTasks from "../../services/deleteTasks";
 import addTasks from "../../services/addTasks";
 import { SearchOutlined } from "@ant-design/icons";
 import { debounce } from "lodash";
+import { PlusOutlined } from "@ant-design/icons";
 
 export const Tasks = () => {
   const tasks = getTasks();
@@ -46,7 +47,7 @@ export const Tasks = () => {
             setModal(true);
             setId(id);
           }}
-          style={{ backgroundColor: "green" }}
+          style={{ backgroundColor: "#14B890" }}
           type="primary"
         >
           Update
@@ -100,13 +101,15 @@ export const Tasks = () => {
       <Toaster position="'top-center" />
       <div className="flex w-full pb-4 justify-start">
         <Button
-          className="block mr-[25px] h-9 bg-darkGreen text-[white]"
+          className="flex mr-[25px] h-9 bg-darkGreen text-[white]"
           onClick={() => {
             setState("add");
             setModal(true);
           }}
+          type="primary"
         >
-          Add Task
+          <PlusOutlined />
+          <h2 className="font-medium text-sm">{"Vazifa qo'shish"}</h2>
         </Button>
         <div className="flex w-[346px] pb-4">
           <Input
@@ -119,7 +122,7 @@ export const Tasks = () => {
       </div>
 
       <CustomTable
-        data={isHaveData && isEmpty ? stuffs : tasks.data }
+        data={isHaveData && isEmpty ? stuffs : tasks.data}
         loading={deleteData.isPending}
         columns={columns}
         scroll={{ x: 5, y: 500 }}

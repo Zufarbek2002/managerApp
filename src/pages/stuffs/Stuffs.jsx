@@ -25,6 +25,8 @@ const Stuffs = () => {
   const [last_name, setLname] = useState("");
   const [status, setStatus] = useState();
   const [type, setType] = useState();
+   const [currentPage, setCurrentPage] = useState(1);
+   const [pageSize, setPageSize] = useState();
 
   const columns = [
     {
@@ -124,13 +126,16 @@ const Stuffs = () => {
       <Toaster position="'top-center" />
       <div className="flex w-full pb-4 justify-start">
         <Button
-          className="block mr-[25px] bg-darkGreen text-[white]"
+          className="flex mr-[25px] bg-darkGreen text-[white]"
           onClick={() => {
             setState("add");
             setModal(true);
           }}
+          type="primary"
+          style={{ backgroundColor: "#14B890" }}
         >
-          <PlusOutlined /> {"Hodim qo'shish"}
+          <PlusOutlined />
+          <h2 className="font-medium text-sm">{"Hodim qo'shish"}</h2>
         </Button>
       </div>
       <div className="flex w-[346px] pb-4">
@@ -145,6 +150,13 @@ const Stuffs = () => {
         data={isHaveData && isEmpty ? stuffs : employee.data}
         loading={deleteEm.isPending}
         columns={columns}
+        page={currentPage}
+        pageSize={pageSize}
+        onPageChange={(page) => setCurrentPage(page)}
+        onPageSizeChange={(current, size) => {
+          setPageSize(size);
+          setCurrentPage(1);
+        }}
         scroll={{ x: 5, y: 500 }}
       />
       <Modal
@@ -182,7 +194,7 @@ const Stuffs = () => {
           setStatus("");
           setType("");
         }}
-        className="!flex flex-col items-center"
+        className="!flex flex-col items-center top-1"
       >
         <p className="text-xl">
           {state == "update" ? "Hodimni o'zgartirish" : "Hodim qo'shish"}
@@ -194,7 +206,7 @@ const Stuffs = () => {
           <Form.Item label="Name" layout="vertical">
             <Input value={name} onChange={(e) => setName(e.target.value)} />
           </Form.Item>
-          <Form.Item label="LName" layout="vertical">
+          <Form.Item label="Last name" layout="vertical">
             <Input
               value={last_name}
               onChange={(e) => setLname(e.target.value)}
