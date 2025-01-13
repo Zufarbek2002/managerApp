@@ -1,3 +1,36 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.custom-pagination-table .ant-pagination {
+    display: flex;
+    justify-content: space-between; /* Spread out external elements */
+    align-items: center; /* Align vertically */
+    margin-top: 16px;
+  }
+  
+  .custom-pagination-table .ant-pagination-item {
+    margin: 0 4px; /* Add close spacing between page numbers */
+  }
+  
+  .custom-pagination-table .ant-pagination-item-active {
+    background-color: #40a9ff; /* Active page background */
+    border-color: #40a9ff;
+    color: white;
+  }
+  
+  .custom-pagination-table .ant-pagination-options {
+    display: flex;
+    justify-content: flex-end; /* Push dropdown to the right */
+  }
+  
+  .custom-pagination-table .ant-pagination-total-text {
+    flex: 1;
+    text-align: left; /* Push "total items" text to the left */
+  }
+  
+  .custom-pagination-table .ant-pagination-prev,
+  .custom-pagination-table .ant-pagination-next {
+    margin: 0 4px; /* Space for prev/next buttons */
+  }
+  

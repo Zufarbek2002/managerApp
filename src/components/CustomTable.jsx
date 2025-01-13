@@ -19,6 +19,7 @@ const CustomTable = ({
   };
   return (
     <Table
+      className="custom-pagination-table"
       pagination={{
         current: page,
         total: Array.isArray(data) ? data.length : 0,
@@ -27,6 +28,7 @@ const CustomTable = ({
         onShowSizeChange: onPageSizeChange,
         showSizeChanger: true,
         pageSizeOptions: ["1", "2", "10", "20"],
+        position: ["bottomCenter"], // Add this line to position pagination
         showTotal: (total, range) =>
           `${range[0]}-${range[1]} of ${total} items`,
       }}
