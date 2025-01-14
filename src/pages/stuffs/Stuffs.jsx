@@ -25,18 +25,22 @@ const Stuffs = () => {
   const [last_name, setLname] = useState("");
   const [status, setStatus] = useState();
   const [type, setType] = useState();
+  const [tasks, setTasks] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState();
 
-   const resetForm = () => {
-     setEmail("");
-     setName("");
-     setLname("");
-     setStatus("");
-     setType("");
-     setId(null);
-     setState(null);
-   };
+// <<<<<<< HEAD
+//    const resetForm = () => {
+//      setEmail("");
+//      setName("");
+//      setLname("");
+//      setStatus("");
+//      setType("");
+//      setId(null);
+//      setState(null);
+//    };
+// =======
+// >>>>>>> afddc9823d60540f881d4718b66cc5ab7c454435
   const columns = [
     {
       key: 1,
@@ -80,8 +84,9 @@ const Stuffs = () => {
             setType(data.type);
             setModal(true);
             setId(id);
+            setTasks([]);
           }}
-          style={{ backgroundColor: "#14B890" }}
+          style={{ backgroundColor: "green" }}
           type="primary"
         >
           Update
@@ -99,7 +104,7 @@ const Stuffs = () => {
             setModalDelete(true);
             setId(id);
           }}
-          style={{ backgroundColor: "#F44336" }}
+          style={{ backgroundColor: "red" }}
           type="primary"
         >
           Delete
@@ -107,7 +112,6 @@ const Stuffs = () => {
       ),
     },
   ];
-
   const [stuffs, setStuffs] = useState([]);
   const [isHaveData, setIsHaveData] = useState(false);
   const [isEmpty, setIsEmpty] = useState(true);
@@ -139,53 +143,6 @@ const Stuffs = () => {
 
   let newEmployee = employee.data
 
-
-  const handleModalSubmit = () => {
-    if (state === "update") {
-      const currentManager = employee.data.find((m) => m.id === id);
-      const updateData = {
-        email,
-        name,
-        last_name,
-        type,
-        isActive: status,
-        tasks: Array.isArray(currentManager?.tasks) ? currentManager.tasks : [],
-      };
-
-      updateEm.mutate(
-        {
-          id,
-          data: updateData,
-        },
-        {
-          onSuccess: () => {
-            toast.success("Employee Updated");
-            setModal(false);
-            resetForm();
-          },
-        }
-      );
-    } else if (state === "add") {
-      addEm.mutate(
-        {
-          email,
-          name,
-          last_name,
-          type,
-          isActive: status,
-          tasks: [],
-        },
-        {
-          onSuccess: () => {
-            toast.success("Employee Added");
-            setModal(false);
-            resetForm();
-          },
-        }
-      );
-    }
-  };
-
   return (
     <div>
       <Toaster position="'top-center" />
@@ -195,7 +152,6 @@ const Stuffs = () => {
           onClick={() => {
             setState("add");
             setModal(true);
-            resetForm();
           }}
           type="primary"
           style={{ backgroundColor: "#14B890" }}
@@ -223,17 +179,52 @@ const Stuffs = () => {
           setPageSize(size);
           setCurrentPage(1);
         }}
-        routePath={type && type == "employee" ? "employee" : "manager"}
+        routePath={type && type == "manager" ? "manager" : "employee"}
         scroll={{ x: 5, y: 500 }}
       />
       <Modal
         open={modal}
         onCancel={() => {
-          resetForm();
+          setEmail("");
+          setName("");
+          setLname("");
+          setStatus("");
+          setType("");
           setModal(false);
         }}
         onClose={() => setModal(false)}
-        onOk={handleModalSubmit}
+        onOk={() => {
+          if (state == "update") {
+            updateEm.mutate({
+              id,
+              data: { email, name, last_name, type, tasks, isActive: status },
+            });
+            if (deleteEm.isSuccess) toast.success("Manager Updated");
+            setModal(false);
+            setState(null);
+          }
+          if (state == "add") {
+            addEm.mutate({
+              email,
+              name,
+              last_name,
+              type,
+              tasks,
+              isActive: status,
+            });
+            if (addEm.isSuccess) toast.success("Manager Added");
+            setModal(false);
+            setState(null);
+          }
+          setState(null);
+          setId(null);
+          setEmail("");
+          setName("");
+          setLname("");
+          setStatus("");
+          setType("");
+          setTasks([]);
+        }}
         className="!flex flex-col items-center top-1"
       >
         <p className="text-xl">
