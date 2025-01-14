@@ -28,19 +28,6 @@ const Stuffs = () => {
   const [tasks, setTasks] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState();
-
-// <<<<<<< HEAD
-//    const resetForm = () => {
-//      setEmail("");
-//      setName("");
-//      setLname("");
-//      setStatus("");
-//      setType("");
-//      setId(null);
-//      setState(null);
-//    };
-// =======
-// >>>>>>> afddc9823d60540f881d4718b66cc5ab7c454435
   const columns = [
     {
       key: 1,

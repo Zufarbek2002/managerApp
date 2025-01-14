@@ -18,10 +18,10 @@ const client = new QueryClient({
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <AuthContextProvider>
-      <QueryClientProvider client={client}>
-        <App />
-      </QueryClientProvider>
-    </AuthContextProvider>
+  <AuthContextProvider>
+    <QueryClientProvider client={client}>
+      <App />
+    </QueryClientProvider>
+  </AuthContextProvider>
   </StrictMode>,
 )
