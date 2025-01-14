@@ -116,10 +116,12 @@ const Umumiy = () => {
     const [isEmpty, setIsEmpty] = useState(true);
 
 
-console.log(stuffs);
+    // console.log(stuffs ? 'hi' : 'hi');
 
 
     const handleSearch = (input) => {
+        console.log(input);
+        
         let inputValue = input.toLowerCase();
 
         if (inputValue && inputValue.length > 1) {
@@ -141,7 +143,7 @@ console.log(stuffs);
 
     const debouncedSearch = debounce(handleSearch, 1000);
 
-    let newEmployee = employee.data
+    // let newEmployee = employee.data
 
 
     const handleModalSubmit = () => {
@@ -202,7 +204,7 @@ console.log(stuffs);
                 />
             </div>
             <CustomTable
-                data={isHaveData && isEmpty ? allemployee : newEmployee}
+                data={isHaveData && isEmpty ? stuffs : allemployee}
                 loading={deleteEm.isPending}
                 columns={columns}
                 page={currentPage}

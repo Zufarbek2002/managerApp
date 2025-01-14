@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { useQuery } from "@tanstack/react-query";
 import { customAxios } from "../hooks/customAxios";
 import { useContext } from "react";

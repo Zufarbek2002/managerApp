@@ -28,6 +28,7 @@ const App = () => {
             <Route path="/vazifalar" element={<Tasks />} />
             <Route path="*" element={<NotFound />} />
           </Route>
+          <Route path="*" element={<NotFound />} />
         </Routes>
       ) : (
         <Login />
