@@ -16,7 +16,6 @@ const Stuffs = () => {
 
   const emPloyes = getEmployee();
   const manAger = getManagers();
-console.log(emPloyes.data);
 
   const employee = emPloyes.data.concat(manAger.data).filter(m => m.type == "employee" ? m : null);
 
@@ -36,6 +35,7 @@ console.log(emPloyes.data);
   const [tasks, setTasks] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState();
+
   const columns = [
     {
       key: 1,
@@ -193,7 +193,7 @@ console.log(emPloyes.data);
           if (state == "update") {
             updateEm.mutate({
               id,
-              data: { email, name, last_name, type, tasks, isActive: status },
+              data: { email, name, last_name, type, tasks, isActive: status ? true : false },
             });
             if (deleteEm.isSuccess) toast.success("Manager Updated");
             setModal(false);
@@ -206,7 +206,7 @@ console.log(emPloyes.data);
               last_name,
               type,
               tasks,
-              isActive: status,
+              isActive: status ? true : false,
             });
             if (addEm.isSuccess) toast.success("Manager Added");
             setModal(false);
