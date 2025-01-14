@@ -1,3 +1,34 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.custom-pagination-table .ant-pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.custom-pagination-table .ant-pagination-item {
+  margin: 0 4px;
+}
+
+.custom-pagination-table .ant-pagination-item-active {
+  border-color: #40a9ff;
+  color: white;
+}
+
+.custom-pagination-table .ant-pagination-options {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.custom-pagination-table .ant-pagination-total-text {
+  flex: 1;
+  text-align: left;
+}
+
+.custom-pagination-table .ant-pagination-prev,
+.custom-pagination-table .ant-pagination-next {
+  margin: 0 4px;
+}

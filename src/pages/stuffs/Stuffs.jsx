@@ -29,6 +29,18 @@ const Stuffs = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState();
 
+// <<<<<<< HEAD
+//    const resetForm = () => {
+//      setEmail("");
+//      setName("");
+//      setLname("");
+//      setStatus("");
+//      setType("");
+//      setId(null);
+//      setState(null);
+//    };
+// =======
+// >>>>>>> afddc9823d60540f881d4718b66cc5ab7c454435
   const columns = [
     {
       key: 1,
@@ -104,6 +116,9 @@ const Stuffs = () => {
   const [isHaveData, setIsHaveData] = useState(false);
   const [isEmpty, setIsEmpty] = useState(true);
 
+
+
+
   const handleSearch = (input) => {
     let inputValue = input.toLowerCase();
 
@@ -124,7 +139,9 @@ const Stuffs = () => {
     }
   };
 
-  const debouncedSearch = debounce(handleSearch, 500);
+  const debouncedSearch = debounce(handleSearch, 1000);
+
+  let newEmployee = employee.data
 
   return (
     <div>
@@ -152,7 +169,7 @@ const Stuffs = () => {
         />
       </div>
       <CustomTable
-        data={isHaveData && isEmpty ? stuffs : employee.data}
+        data={isHaveData && isEmpty ? stuffs : newEmployee}
         loading={deleteEm.isPending}
         columns={columns}
         page={currentPage}
