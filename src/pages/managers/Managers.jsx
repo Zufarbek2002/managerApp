@@ -15,8 +15,6 @@ export const Manager = () => {
   const employee = getEmployee();
   const manAger = getManagers();
   const managers = employee.data.concat(manAger.data).filter(m => m.type == 'manager' ? m : null);
-  console.log(managers);
-  
 
   const deleteMuation = deleteManagerMuation();
   const updateMuation = updateManagerMuation();
@@ -69,9 +67,9 @@ export const Manager = () => {
             setState("update");
             setEmail(data.email);
             setName(data.name);
-            // setLname(data.last_name);
+            setLname(data.last_name);
             setStatus(data.isActive);
-            // setType(data.type || "");
+            setType(data.type || "");
             setId(id);
             setStatus(data.isActive);
             setModal(true);
