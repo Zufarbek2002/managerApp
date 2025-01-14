@@ -6,7 +6,6 @@ import toast, { Toaster } from "react-hot-toast";
 import { LoadingOutlined } from "@ant-design/icons";
 
 const Login = () => {
-
   const { setToken } = useContext(AuthContext);
 
   const [email, setEmail] = useState('');
@@ -21,6 +20,7 @@ const Login = () => {
       password
     }).then(res => {
       setToken(res.data.accessToken);
+    // eslint-disable-next-line no-unused-vars
     }).catch(_ => {
       toast.error('Email or Password incorrect');
     }).finally(() => setTimeout(() => setIsLoading(false), 200))
@@ -39,7 +39,7 @@ const Login = () => {
         </Form.Item>
         <Form.Item name='vertical' className="mt-6">
           <Button onClick={handleLogin} className="!text-md px-1 py-2 text-white font-semibold bg-darkGreen w-[72px] h-[40px]">
-            { isLoading ? <Spin indicator={<LoadingOutlined spin />} /> : 'Kirish'}
+            {isLoading ? <Spin indicator={<LoadingOutlined spin />} /> : 'Kirish'}
           </Button>
         </Form.Item>
       </Form>

@@ -9,9 +9,17 @@ import updateEmployee from "../../services/updateEmployee";
 import addEmployee from "../../services/addEmployee";
 import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import { debounce } from "lodash";
+import getManagers from "../../services/getManagers";
 
 const Stuffs = () => {
-  const employee = getEmployee();
+
+
+  const emPloyes = getEmployee();
+  const manAger = getManagers();
+console.log(emPloyes.data);
+
+  const employee = emPloyes.data.concat(manAger.data).filter(m => m.type == "employee" ? m : null);
+
   const deleteEm = deleteEmployee();
   const updateEm = updateEmployee();
   const addEm = addEmployee();
@@ -60,8 +68,9 @@ const Stuffs = () => {
       dataIndex: "id",
       render: (id) => (
         <Button
+        className="bg-darkGreen"
           onClick={(e) => {
-            const data = employee.data.find((u) => u.id == id);
+            const data = employee.find((u) => u.id == id);
             e.stopPropagation();
             setState("update");
             setEmail(data.email);
@@ -73,7 +82,7 @@ const Stuffs = () => {
             setId(id);
             setTasks([]);
           }}
-          style={{ backgroundColor: "green" }}
+          style={{ backgroundColor: "#14B890" }}
           type="primary"
         >
           Update
@@ -91,7 +100,7 @@ const Stuffs = () => {
             setModalDelete(true);
             setId(id);
           }}
-          style={{ backgroundColor: "red" }}
+          style={{ backgroundColor: "#F44336" }}
           type="primary"
         >
           Delete
@@ -111,7 +120,7 @@ const Stuffs = () => {
 
     if (inputValue && inputValue.length > 1) {
       setStuffs(
-        employee.data.filter((u) => u.name.toLowerCase().includes(inputValue))
+        employee.filter((u) => u.name.toLowerCase().includes(inputValue))
       );
     } else {
       setStuffs([]);
@@ -128,7 +137,7 @@ const Stuffs = () => {
 
   const debouncedSearch = debounce(handleSearch, 1000);
 
-  let newEmployee = employee.data
+  let newEmployee = employee
 
   return (
     <div>
